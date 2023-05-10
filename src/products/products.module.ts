@@ -7,7 +7,7 @@ import { Product, ProductSchema } from './entities/product.entity';
 @Module({
   controllers: [ProductsController],
   providers: [ProductsService],
-  exports: [ProductsService],
+  exports: [ProductsService, MongooseModule],
   imports: [
     MongooseModule.forFeature([
       {

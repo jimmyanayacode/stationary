@@ -1,21 +1,27 @@
+import { faker } from '@faker-js/faker';
 import { Injectable } from '@nestjs/common';
+import { Product } from 'src/products/entities/product.entity';
 import { ProductsService } from 'src/products/products.service';
-import { PRODUCTS_SEED } from './data/products.seed';
-import { CategoriesService } from 'src/categories/categories.service';
-import { CATEGORIES_SEED } from './data/categories.seed';
+import { PRODUCTS, createRandomProduct } from './data/products.seed';
+import { InjectModel } from '@nestjs/mongoose';
+import { Model } from 'mongoose';
+import { CreateProductDto } from '../products/dto/create-product.dto';
+
 
 @Injectable()
 export class SeedService {
 
-  constructor( 
-    private readonly productService:ProductsService,
-    private readonly categoriesService:CategoriesService
+  constructor(
+    @InjectModel( Product.name )
+    private readonly productmodel:Model<Product>
   ){}
 
-  populateDb() {
-    this.productService.fillProductsWithSeedData( PRODUCTS_SEED )
-    this.categoriesService.fillCategoriesWithSeedData( CATEGORIES_SEED )
-    return `seed executed`;
-  }
- 
+  async createFakeProduct() {
+    
+      await this.productmodel.insertMany(PRODUCTS)
+      return `Seed execute`
+    
+  } 
 }
+ 
+

@@ -1,35 +1,18 @@
-import { Product } from "src/products/entities/product.entity";
-import { v4 as uuid } from 'uuid';
 
-export const PRODUCTS_SEED: Product[] = [
+import { faker } from '@faker-js/faker';
+import { Product } from 'src/products/interfaces/products.interface';
 
-    /* {
-        id: uuid(),
-        name: 'borrador',
-        priceSale: '1500',
-        priceCost: '1200',
-        category: '1'
-    },
-    {
-        id: uuid(),
-        name: 'cuaderno 50 hojas',
-        priceSale: '1500',
-        priceCost: '1200',
-        category: '1'
-    },
-    {
-        id: uuid(),
-        name: 'block',
-        priceSale: '1500',
-        priceCost: '1200',
-        category: '1'
-    },
-    {
-        id: uuid(),
-        name: 'zacapunta doble',
-        priceSale: '1500',
-        priceCost: '1200',
-        category: '1'
-    }, */
+export const PRODUCTS = [];
 
-]
+export function createRandomProduct(): Product {
+    return {
+        name: faker.commerce.product(),
+        priceSale: +faker.commerce.price(50, 200),
+        priceCost: +faker.commerce.price(20, 50),
+        category: faker.commerce.department()
+    };
+  }
+
+  Array.from({ length:15 }).forEach(() => {
+    PRODUCTS.push(createRandomProduct());
+  });
