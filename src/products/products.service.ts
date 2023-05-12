@@ -1,9 +1,9 @@
-import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException } from '@nestjs/common';
+import { BadRequestException, Injectable, InternalServerErrorException, NotFoundException, Query } from '@nestjs/common';
 import { Product } from './entities/product.entity';
 import { CreateProductDto, UpdateProductDto } from './dto'
 import { Model, isValidObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
-
+import { PaginationDto } from 'src/common/dto/pagination.dto';
 @Injectable()
 export class ProductsService {
 
@@ -12,19 +12,19 @@ export class ProductsService {
     private readonly productModel : Model<Product>
     ){}
 
-  private products:Product[] = [
-    /* {
-      id: uuid(),
-      name: 'Borrador',
-      priceSale: '500',
-      priceCost: '400',
-      category: '1',
-    }, */
-  ];
+    findAllProducts( paginationDto:PaginationDto ) {
 
-  get getProducts() {
-    return [...this.products];
-  }
+      const { limit = 10, offset = 0 } = paginationDto;
+
+      return this.productModel.find()
+        .limit( limit )  
+        .skip( offset )
+        .sort({
+          name: 1
+        })
+        .select('-__v')
+        /* .skip( paginationDto.offset ) */
+    }
 
   async findProductByTerm( term: string ) {
 
@@ -85,9 +85,9 @@ export class ProductsService {
     return;
   }
 
-  fillProductsWithSeedData( products:Product[] ) {
+  /* fillProductsWithSeedData( products:Product[] ) {
     this.products = products;
-  }
+  } */
 
   private duplicatePropertiError( error){
     if ( error.code === 11000) {

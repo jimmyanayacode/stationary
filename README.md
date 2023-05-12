@@ -57,6 +57,11 @@ $ yarn run start:dev
 $ yarn run start:prod
 ```
 
+## Rebuild db with seed
+```
+http://localhost:3000/api/seed
+```
+
 ## Test
 
 ```bash
