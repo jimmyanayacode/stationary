@@ -1,17 +1,26 @@
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
+
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ProductsModule } from './products/products.module';
 import { CategoriesModule } from './categories/categories.module';
-import { SeedModule } from './seed/seed.module';
-import { MongooseModule } from '@nestjs/mongoose';
 import { CommonModule } from './common/common.module';
+import { EnvConfiguration } from './config/env.config';
+import { ProductsModule } from './products/products.module';
+import { SeedModule } from './seed/seed.module';
+import { JoiValidationSchema } from './config/joi.validation';
 
 @Module({
-  imports: [ProductsModule,
+  imports: [
+    ConfigModule.forRoot({
+      load: [EnvConfiguration],
+      validationSchema: JoiValidationSchema
+    }),
+            ProductsModule,
             CategoriesModule,
             SeedModule,
-            MongooseModule.forRoot('mongodb://localhost:27017/nest-stationary'),
+            MongooseModule.forRoot(process.env.MONGODB),
             CommonModule
           ],
   controllers: [AppController],

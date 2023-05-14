@@ -26,7 +26,7 @@
 
 [Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
 
-## Installation
+## 1. Installation
 
 Clone repository
 
@@ -34,17 +34,21 @@ Clone repository
 $ yarn install
 ```
 
-## Nest installation
+## 2. Nest installation
 ```bash
 npm i -g @nestjs/cli
 ```
 
-## Lift database
+## 3. Lift database
 ```
 docker-compose up -d
 ```
 
-## Running the app
+## 4. Clone file ```.env.template``` and rename copy in ```.env```
+
+## 6. Populate environment variables in the .env
+
+## 5. Running the app
 
 ```bash
 # development
@@ -57,7 +61,7 @@ $ yarn run start:dev
 $ yarn run start:prod
 ```
 
-## Rebuild db with seed
+## 6. Rebuild db with seed
 ```
 http://localhost:3000/api/seed
 ```

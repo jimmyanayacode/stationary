@@ -4,6 +4,9 @@
 
 /mongo
 
+# enviroment variavel
+.env
+
 # Logs
 logs
 *.log

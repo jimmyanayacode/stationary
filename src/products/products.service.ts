@@ -4,17 +4,23 @@ import { CreateProductDto, UpdateProductDto } from './dto'
 import { Model, isValidObjectId } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 import { PaginationDto } from 'src/common/dto/pagination.dto';
+import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class ProductsService {
 
+  private defaultLimit: number
+
   constructor ( 
     @InjectModel( Product.name )
-    private readonly productModel : Model<Product>
-    ){}
+    private readonly productModel : Model<Product>,
+    private readonly configService: ConfigService
+    ){
+      this.defaultLimit = this.configService.get<number>('defaultLimit');
+    }
 
     findAllProducts( paginationDto:PaginationDto ) {
 
-      const { limit = 10, offset = 0 } = paginationDto;
+      const { limit = this.defaultLimit, offset = 0 } = paginationDto;
 
       return this.productModel.find()
         .limit( limit )  
@@ -23,7 +29,6 @@ export class ProductsService {
           name: 1
         })
         .select('-__v')
-        /* .skip( paginationDto.offset ) */
     }
 
   async findProductByTerm( term: string ) {
